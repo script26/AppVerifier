@@ -32,17 +32,17 @@ jobs:
       - name: List release outputs
         run: ls -R app/build/outputs/apk/release/
 
-      - name: Sign APK
-        run: |
-          jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
-            -keystore my-release-key.jks \
-            -storepass "${{ secrets.KEYSTORE_PASSWORD }}" \
-            -keypass "${{ secrets.KEY_PASSWORD }}" \
-            app/build/outputs/apk/release/app-release-unsigned.apk "${{ secrets.KEY_ALIAS }}"
+#      - name: Sign APK
+#        run: |
+#          jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
+#            -keystore my-release-key.jks \
+#            -storepass "${{ secrets.KEYSTORE_PASSWORD }}" \
+#            -keypass "${{ secrets.KEY_PASSWORD }}" \
+#            app/build/outputs/apk/release/app-release-unsigned.apk "${{ secrets.KEY_ALIAS }}"
 
-      - name: Verify signed APK
-        run: |
-          jarsigner -verify -verbose -certs app/build/outputs/apk/release/app-release-unsigned.apk
+#      - name: Verify signed APK
+#        run: |
+#          jarsigner -verify -verbose -certs app/build/outputs/apk/release/app-release-unsigned.apk
 
 #      - name: Align APK
 #        run: |
