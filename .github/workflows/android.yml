@@ -44,17 +44,17 @@ jobs:
         run: |
           jarsigner -verify -verbose -certs app/build/outputs/apk/release/app-release-unsigned.apk
 
-      - name: Align APK
-        run: |
-          ZIPALIGN="$(find $ANDROID_HOME -path "*/build-tools/*/zipalign" -type f | head -n 1)"
-          if [ -z "$ZIPALIGN" ]; then
-            echo "zipalign not found; skipping align"
-            cp app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/app-release.apk
-          else
-            "$ZIPALIGN" -v 4 \
-              app/build/outputs/apk/release/app-release-unsigned.apk \
-              app/build/outputs/apk/release/app-release.apk
-          fi
+#      - name: Align APK
+#        run: |
+#          ZIPALIGN="$(find $ANDROID_HOME -path "*/build-tools/*/zipalign" -type f | head -n 1)"
+#          if [ -z "$ZIPALIGN" ]; then
+#            echo "zipalign not found; skipping align"
+#            cp app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/app-release.apk
+#          else
+#            "$ZIPALIGN" -v 4 \
+#              app/build/outputs/apk/release/app-release-unsigned.apk \
+#              app/build/outputs/apk/release/app-release.apk
+#          fi
 
       - name: Create GitHub Release and upload APK
         env:
