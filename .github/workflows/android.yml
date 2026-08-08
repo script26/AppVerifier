@@ -3,6 +3,9 @@ name: Android CI
 on:
   workflow_dispatch:
 
+permissions:
+  contents: write
+  
 jobs:
   build:
 
@@ -22,15 +25,35 @@ jobs:
     - name: Build with Gradle
       run: ./gradlew build
 
+    - name: Decode keystore
+      run: echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 -d > my-release-key.jksl
+
     - name: Build release
       run: ./gradlew assembleRelease
 
-    - name: Create GitHub Release and upload APK        
-      uses: ncipollo/release-action@v1.21.0        
-      with:          
-        tag: ${{ github.run_number }}          
-        name: Release ${{ github.run_number }}          
-        artifacts: "app/build/outputs/apk/release/*.apk"          
-        draft: false          
-        prerelease: false
-        fail_on_unmatched_files: true
+    - name: Sign APK
+      run: |
+        jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
+          -keystore my-release-key.jks -storepass ${{ secrets.KEYSTORE_PASSWORD }} \
+          -keypass ${{ secrets.KEY_PASSWORD }} \
+          app/build/outputs/apk/release/app-release-unsigned.apk ${{ secrets.KEY_ALIAS }}
+
+    - name: Verify signature
+      run: jarsigner -verify -verbose -certs app/build/outputs/apk/release/app-release-unsigned.apk
+
+    - name: Align APK
+      run: |
+        $ANDROID_HOME/build-tools/34.0.0/zipalign -v 4 \
+          app/build/outputs/apk/release/app-release-unsigned.apk \
+          app/build/outputs/apk/release/app-release.apk
+
+    - name: Create release
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        tag: ${{ github.ref_name }}
+      run: |
+        gh release create "$tag" \
+            --repo="$GITHUB_REPOSITORY" \
+            --title="${tag#v}" \
+            --generate-notes \
+            "app/build/outputs/apk/release/*.apk"
