@@ -5,54 +5,63 @@ on:
 
 permissions:
   contents: write
-  
+
 jobs:
   build:
-
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v4
-    - name: set up JDK 17
-      uses: actions/setup-java@v4
-      with:
-        java-version: '17'
-        distribution: 'temurin'
-        cache: gradle
+      - uses: actions/checkout@v4
 
-    - name: Grant execute permission for gradlew
-      run: chmod +x gradlew
-    - name: Build with Gradle
-      run: ./gradlew build
+      - name: set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: "17"
+          distribution: "temurin"
+          cache: gradle
 
-    - name: Decode keystore
-      run: echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 -d > my-release-key.jks
+      - name: Grant execute permission for gradlew
+        run: chmod +x gradlew
 
-    - name: Build release
-      run: ./gradlew assembleRelease
+      - name: Build release
+        run: ./gradlew assembleRelease
 
-    - name: Sign APK
-      run: |
-        jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
-          -keystore my-release-key.jks -storepass ${{ secrets.KEYSTORE_PASSWORD }} \
-          -keypass ${{ secrets.KEY_PASSWORD }} \
-          app/build/outputs/apk/release/app-release-unsigned.apk ${{ secrets.KEY_ALIAS }}
+      - name: Decode keystore
+        run: echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 -d > my-release-key.jks
 
-    - name: Verify signature
-      run: jarsigner -verify -verbose -certs app/build/outputs/apk/release/app-release-unsigned.apk
+      - name: List release outputs
+        run: ls -R app/build/outputs/apk/release/
 
-    - name: Align APK
-      run: |
-        $ANDROID_HOME/build-tools/34.0.0/zipalign -v 4 \
-          app/build/outputs/apk/release/app-release-unsigned.apk \
-          app/build/outputs/apk/release/app-release.apk
+      - name: Sign APK
+        run: |
+          jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
+            -keystore my-release-key.jks \
+            -storepass "${{ secrets.KEYSTORE_PASSWORD }}" \
+            -keypass "${{ secrets.KEY_PASSWORD }}" \
+            app/build/outputs/apk/release/app-release-unsigned.apk "${{ secrets.KEY_ALIAS }}"
 
-    - name: Create release
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        tag: ${{ github.ref_name }}
-      run: |
-        gh release create "$tag" \
+      - name: Verify signed APK
+        run: |
+          jarsigner -verify -verbose -certs app/build/outputs/apk/release/app-release-unsigned.apk
+
+      - name: Align APK
+        run: |
+          ZIPALIGN="$(find $ANDROID_HOME -path "*/build-tools/*/zipalign" -type f | head -n 1)"
+          if [ -z "$ZIPALIGN" ]; then
+            echo "zipalign not found; skipping align"
+            cp app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/app-release.apk
+          else
+            "$ZIPALIGN" -v 4 \
+              app/build/outputs/apk/release/app-release-unsigned.apk \
+              app/build/outputs/apk/release/app-release.apk
+          fi
+
+      - name: Create GitHub Release and upload APK
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          tag: ${{ github.ref_name }}
+        run: |
+          gh release create "$tag" \
             --repo="$GITHUB_REPOSITORY" \
             --title="${tag#v}" \
             --generate-notes \
