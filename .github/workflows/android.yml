@@ -24,9 +24,13 @@ jobs:
 
     - name: Build release
       run: ./gradlew assembleRelease
-      
-    - name: Upload release APK  
-      uses: actions/upload-artifact@v4  
-      with:
-        name: release-apk    
-        path: app/build/outputs/apk/release/*.apk
+
+    - name: Create GitHub Release and upload APK        
+      uses: ncipollo/release-action@v1.21.0        
+      with:          
+        tag: ${{ github.run_number }}          
+        name: Release ${{ github.run_number }}          
+        artifacts: "app/build/outputs/apk/release/*.apk"          
+        draft: false          
+        prerelease: false
+        fail_on_unmatched_files: true
