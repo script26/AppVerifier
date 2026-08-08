@@ -26,7 +26,7 @@ jobs:
       run: ./gradlew build
 
     - name: Decode keystore
-      run: echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 -d > my-release-key.jksl
+      run: echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 -d > my-release-key.jks
 
     - name: Build release
       run: ./gradlew assembleRelease
