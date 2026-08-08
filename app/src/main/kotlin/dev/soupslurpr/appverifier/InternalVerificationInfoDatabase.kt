@@ -1,6 +1,6 @@
-package org.privacyguides.verifiedapps
+package dev.soupslurpr.appverifier
 
-import org.privacyguides.verifiedapps.data.Hashes
+import dev.soupslurpr.appverifier.data.Hashes
 
 
 enum class Source(val displayName: String) {
