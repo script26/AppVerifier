@@ -111,6 +111,20 @@ data class InternalDatabaseVerificationInfo(
  */
 val internalVerificationInfoDatabase = setOf(
     InternalDatabaseVerificationInfo(
+        "com.dkanada.openapk",
+        listOf(
+            Hashes(
+                listOf(
+                    Source.GITHUB
+                ),
+                listOf(
+                    "48:FF:77:78:A8:D0:A5:0B:01:E4:77:EE:64:DE:AA:71:93:C0:16:22:7A:7F:1A:06:87:45:74:33:86:AA:45:7F"
+                ),
+                false
+            )
+        )
+    ),
+    InternalDatabaseVerificationInfo(
         "juloo.keyboard2",
         listOf(
             Hashes(
