@@ -24,19 +24,23 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build with Gradle
-        run: ./gradlew build
+      - name: Decode keystore
+        run: echo "${{ secrets.ANDROID_KEYSTORE }}" | base64 -d > release.jks
+
+      - name: Build APK
+        run: ./gradlew assembleRelease
 
       - name: Sign APK
         env:
-          KEYSTORE_PATH: ${{ secrets.KEYSTORE_PATH }}
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+          KS: ${{ github.workspace }}/release.jks
+          KSP: ${{ secrets.KEYSTORE_PASSWORD }}
+          ALIAS: ${{ secrets.KEY_ALIAS }}
+          KP: ${{ secrets.KEY_PASSWORD }}
         run: |
-          ./gradlew assembleRelease
-          jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 -keystore $KEYSTORE_PATH app/build/outputs/apk/release/app-release-unsigned.apk $KEY_ALIAS
-          zipalign -v 4 app/build/outputs/apk/release/app-release-unsigned.apk app/build/outputs/apk/release/app-release.apk
+          BT="$ANDROID_HOME/build-tools/$(ls "$ANDROID_HOME/build-tools" | sort -V | tail -1)"
+          "$BT/zipalign" -p 4 app/build/outputs/apk/release/app-release-unsigned.apk app-release-aligned.apk
+          "$BT/apksigner" sign --ks "$KS" --ks-pass pass:"$KSP" --ks-key-alias "$ALIAS" --key-pass pass:"$KP" --out app-release.apk app-release-aligned.apk
+          "$BT/apksigner" verify app-release.apk
 
       - name: Create GitHub Release and upload APK
         env:
