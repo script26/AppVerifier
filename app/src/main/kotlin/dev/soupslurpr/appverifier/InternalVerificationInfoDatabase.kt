@@ -111,6 +111,20 @@ data class InternalDatabaseVerificationInfo(
  */
 val internalVerificationInfoDatabase = setOf(
     InternalDatabaseVerificationInfo(
+        "com.angrydoughnuts.android.alarmclock",
+        listOf(
+            Hashes(
+                listOf(
+                    Source.GITHUB
+                ),
+                listOf(
+                    "B4:58:2F:03:86:A2:AC:6F:15:0C:7C:A7:82:DF:40:40:74:4E:E2:B6:D3:3E:CF:BE:4F:64:88:E3:26:28:8E:49"
+                ),
+                false
+            )
+        )
+    ),
+    InternalDatabaseVerificationInfo(
         "com.dkanada.openapk",
         listOf(
             Hashes(
