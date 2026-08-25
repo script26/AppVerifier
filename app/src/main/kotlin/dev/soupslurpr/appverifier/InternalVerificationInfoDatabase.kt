@@ -111,6 +111,20 @@ data class InternalDatabaseVerificationInfo(
  */
 val internalVerificationInfoDatabase = setOf(
     InternalDatabaseVerificationInfo(
+        "com.atomath.wifi_camera",
+        listOf(
+            Hashes(
+                listOf(
+                    Source.GITHUB
+                ),
+                listOf(
+                    "AC:94:A8:1B:DF:53:5A:74:D9:B7:49:A3:5F:B0:8F:4F:8A:1C:B7:2D:0B:30:B1:FF:66:5E:E3:40:13:6E:DD:F2"
+                ),
+                false
+            )
+        )
+    ),
+    InternalDatabaseVerificationInfo(
         "com.angrydoughnuts.android.alarmclock",
         listOf(
             Hashes(
