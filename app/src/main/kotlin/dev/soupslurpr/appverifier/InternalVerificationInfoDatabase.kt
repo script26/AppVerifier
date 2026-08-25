@@ -111,6 +111,20 @@ data class InternalDatabaseVerificationInfo(
  */
 val internalVerificationInfoDatabase = setOf(
     InternalDatabaseVerificationInfo(
+        "name.lmj001.savetodevice",
+        listOf(
+            Hashes(
+                listOf(
+                    Source.GITHUB
+                ),
+                listOf(
+                    "B9:CE:58:6F:74:F1:E5:17:AB:38:DA:20:E1:31:D9:7B:A1:97:DB:06:60:F9:C1:71:61:0E:73:FA:DA:E0:FE:16"
+                ),
+                false
+            )
+        )
+    ),
+    InternalDatabaseVerificationInfo(
         "com.atomath.wifi_camera",
         listOf(
             Hashes(
