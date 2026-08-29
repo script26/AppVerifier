@@ -111,6 +111,20 @@ data class InternalDatabaseVerificationInfo(
  */
 val internalVerificationInfoDatabase = setOf(
     InternalDatabaseVerificationInfo(
+        "com.grubhub.android",
+        listOf(
+            Hashes(
+                listOf(
+                    Source.GITHUB
+                ),
+                listOf(
+                    "A2:E1:6A:DB:8A:74:ED:8A:33:4F:02:7E:0F:70:B2:37:84:46:AF:EF:A7:E3:71:B6:1C:6E:52:82:33:F9:8E:56"
+                ),
+                false
+            )
+        )
+    ),
+    InternalDatabaseVerificationInfo(
         "name.lmj001.savetodevice",
         listOf(
             Hashes(
