@@ -115,9 +115,11 @@ val internalVerificationInfoDatabase = setOf(
         listOf(
             Hashes(
                 listOf(
+                    Source.FDROID,
                     Source.GITHUB
                 ),
                 listOf(
+                    "2C:4C:50:6A:3C:14:A3:10:A1:28:1C:B9:A8:5C:03:EF:94:C6:10:89:0D:57:31:67:8E:BD:7E:C8:B2:6B:CA:79",
                     "B8:F6:FA:A6:9E:3B:3F:9F:A6:25:43:24:35:82:E0:3E:35:D2:F2:D8:4E:62:D8:D0:86:E8:83:84:9D:CE:00:6D"
                 ),
                 false
