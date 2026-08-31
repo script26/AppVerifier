@@ -109,7 +109,36 @@ data class InternalDatabaseVerificationInfo(
  *
  * Generated from https://github.com/privacyguides/verified-apps/blob/main/data.yml
  */
+
 val internalVerificationInfoDatabase = setOf(
+    InternalDatabaseVerificationInfo(
+        "com.instacart.client",
+        listOf(
+            Hashes(
+                listOf(
+                    Source.GITHUB
+                ),
+                listOf(
+                    "63:B7:7B:DC:EC:15:67:5F:E0:15:15:6D:82:0F:04:02:1A:BD:A7:1C:3E:67:EC:00:F2:56:29:20:6B:21:0F:72"
+                ),
+                false
+            )
+        )
+    ),
+    InternalDatabaseVerificationInfo(
+        "com.dd.doordash",
+        listOf(
+            Hashes(
+                listOf(
+                    Source.GITHUB
+                ),
+                listOf(
+                    "93:6F:83:B9:14:21:6D:8A:87:A7:97:EF:FB:5C:A9:D4:50:0B:D2:78:D8:92:07:9F:DB:0D:5D:05:FE:F2:10:B5"
+                ),
+                false
+            )
+        )
+    ),
     InternalDatabaseVerificationInfo(
         "com.grubhub.android",
         listOf(
