@@ -111,6 +111,34 @@ data class InternalDatabaseVerificationInfo(
  */
 val internalVerificationInfoDatabase = setOf(
     InternalDatabaseVerificationInfo(
+        "com.aefyr.sai.fdroid",
+        listOf(
+            Hashes(
+                listOf(
+                    Source.GITHUB
+                ),
+                listOf(
+                    "B8:F6:FA:A6:9E:3B:3F:9F:A6:25:43:24:35:82:E0:3E:35:D2:F2:D8:4E:62:D8:D0:86:E8:83:84:9D:CE:00:6D"
+                ),
+                false
+            )
+        )
+    ),
+    InternalDatabaseVerificationInfo(
+        "io.alexrintt.kanade",
+        listOf(
+            Hashes(
+                listOf(
+                    Source.GITHUB
+                ),
+                listOf(
+                    "21:5F:7A:B3:44:A0:E2:9D:9C:8F:1A:6F:9B:82:4B:1A:9A:9D:C1:A5:1A:9E:8E:8A:7C:97:C8:94:14:BF:B3:74"
+                ),
+                false
+            )
+        )
+    ),
+    InternalDatabaseVerificationInfo(
         "com.instacart.client",
         listOf(
             Hashes(
