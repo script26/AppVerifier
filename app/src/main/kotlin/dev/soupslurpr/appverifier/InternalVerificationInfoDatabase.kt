@@ -109,7 +109,6 @@ data class InternalDatabaseVerificationInfo(
  *
  * Generated from https://github.com/privacyguides/verified-apps/blob/main/data.yml
  */
-
 val internalVerificationInfoDatabase = setOf(
     InternalDatabaseVerificationInfo(
         "com.instacart.client",
